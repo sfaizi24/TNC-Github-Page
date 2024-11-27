@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Team Probability Calculator</title>
-    <!-- Include Chart.js from CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Team Probability Calculator2</title>
 </head>
 <body>
-    <h1>Team Probability Calculator</h1>
+    <h1>Team Probability Calculator2</h1>
 
     <label for="teamA">Select Player for Team A:</label>
     <select id="teamA">
@@ -27,4 +25,25 @@
 
     <br><br>
 
-    <button on
+    <button onclick="calculateProbability()">Calculate</button>
+
+    <h2 id="result"></h2>
+
+    <!-- Canvas for the chart -->
+    <canvas id="playerChart" width="800" height="400"></canvas>
+
+    <!-- Include Chart.js and your script at the end -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script>
+        // Player data
+        const players = {
+            "Shahudit": { variance: 283, model_expected: 105, sleeper_proj: 108, hot_factor: -3.4 },
+            "mehdidrissi": { variance: 123, model_expected: 111, sleeper_proj: 115, hot_factor: -4.4 },
+            "umarrahman30": { variance: 97, model_expected: 114, sleeper_proj: 117, hot_factor: -3.2 },
+            "xavierking4": { variance: 150, model_expected: 114, sleeper_proj: 112, hot_factor: 2.4 },
+            "sahirsyed30": { variance: 170, model_expected: 115, sleeper_proj: 115, hot_factor: 0.2 },
+            "SumHead": { variance: 101, model_expected: 116, sleeper_proj: 114, hot_factor: 1.8 },
+            "sfaizi24": { variance: 128, model_expected: 118, sleeper_proj: 114, hot_factor: 3.5 },
+            "asadrafique": { variance: 198, model_expected: 118, sleeper_proj: 116, hot_factor: 1.9 },
+            "Ammady": { variance: 298, model_expected: 120, sleeper_proj: 109, hot_factor: 11.1 },
+            "Jibraan": { variance: 483, model_expected: 126, sleeper_proj: 124, hot_factor: 1.7 }
