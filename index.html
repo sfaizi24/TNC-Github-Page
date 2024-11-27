@@ -3,6 +3,13 @@
 <head>
     <title>Player Data and Chart</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Set a fixed height for the chart container */
+        #playerChart {
+            width: 100%;
+            height: 200px; /* Fixed height */
+        }
+    </style>
 </head>
 <body>
     <h1>Player Data Calculator</h1>
@@ -30,7 +37,7 @@
 
     <h2 id="result"></h2>
 
-    <canvas id="playerChart" width="400" height="200"></canvas>
+    <canvas id="playerChart"></canvas>
 
     <script>
         // Player data
@@ -94,59 +101,3 @@
             x = Math.abs(x);
             const a1 = 0.254829592, a2 = -0.284496736;
             const a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429;
-            const p = 0.3275911;
-            const t = 1 / (1 + p * x);
-            const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
-            return sign * y;
-        }
-
-        // Populate dropdowns immediately
-        populateDropdown("teamA");
-        populateDropdown("teamB");
-
-        // Generate the line graph
-        const ctx = document.getElementById("playerChart").getContext("2d");
-        const playerNames = Object.keys(players);
-        const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
-        const modelExpectedData = playerNames.map(player => players[player].model_expected);
-
-        new Chart(ctx, {
-            type: "line",
-            data: {
-                labels: playerNames,
-                datasets: [
-                    {
-                        label: "Sleeper Proj",
-                        data: sleeperProjData,
-                        borderColor: "#003a6f",
-                        fill: false
-                    },
-                    {
-                        label: "Model Expected",
-                        data: modelExpectedData,
-                        borderColor: "#a12830",
-                        fill: false
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: "Players"
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: "Values"
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-</html>
