@@ -48,7 +48,7 @@
                 const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
                 const zScore = numerator / denominator;
 
-                // Standard normal CDF using Math.erf
+                // Standard normal CDF using erf function
                 const probability = (0.5 * (1 + erf(zScore / Math.sqrt(2)))).toFixed(4);
 
                 document.getElementById("result").textContent = `Probability: ${probability}`;
@@ -70,11 +70,11 @@
             return sign * y;
         }
 
-        // Populate dropdowns on page load
-        window.onload = function() {
+        // Populate dropdowns on DOMContentLoaded
+        document.addEventListener("DOMContentLoaded", function() {
             populateDropdown("teamA");
             populateDropdown("teamB");
-        };
+        });
     </script>
 </head>
 <body>
@@ -88,4 +88,19 @@
     <br><br>
 
     <label for="teamB">Select Player for Team B:</label>
-    <select id="teamB
+    <select id="teamB">
+        <option value="">-- Select a player --</option>
+    </select>
+
+    <br><br>
+
+    <label for="adjustment">Input Number:</label>
+    <input type="number" id="adjustment" step="any">
+
+    <br><br>
+
+    <button onclick="calculateProbability()">Calculate</button>
+
+    <h2 id="result"></h2>
+</body>
+</html>
