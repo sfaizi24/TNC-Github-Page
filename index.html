@@ -1,7 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Team Probability Calculator</title>
+    <title>TNC Week 13 Calculator</title>
+</head>
+<body>
+    <h1>TNC Week 13 Calculator</h1>
+
+    <label for="teamA">Select Winning Team:</label>
+    <select id="teamA">
+        <option value="">-- Select a player --</option>
+    </select>
+
+    <br><br>
+
+    <label for="teamB">Select Losing Team:</label>
+    <select id="teamB">
+        <option value="">-- Select a player --</option>
+    </select>
+
+    <br><br>
+
+    <label for="adjustment">Win By (optional):</label>
+    <input type="number" id="adjustment" step="any">
+
+    <br><br>
+
+    <button onclick="calculateProbability()">Calculate</button>
+
+    <h2 id="result"></h2>
+
+    <!-- JavaScript code at the end of the body -->
     <script>
         // Player data
         const players = {
@@ -49,9 +77,10 @@
                 const zScore = numerator / denominator;
 
                 // Standard normal CDF using erf function
-                const probability = (0.5 * (1 + erf(zScore / Math.sqrt(2)))).toFixed(4);
+                const probability = 0.5 * (1 + erf(zScore / Math.sqrt(2)));
 
-                document.getElementById("result").textContent = `Probability: ${probability}`;
+                // Display the probability as a percentage
+                document.getElementById("result").textContent = `Probability: ${(probability * 100).toFixed(2)}%`;
             } else {
                 document.getElementById("result").textContent = "Please select both players.";
             }
@@ -70,37 +99,9 @@
             return sign * y;
         }
 
-        // Populate dropdowns on DOMContentLoaded
-        document.addEventListener("DOMContentLoaded", function() {
-            populateDropdown("teamA");
-            populateDropdown("teamB");
-        });
+        // Populate dropdowns immediately since elements are loaded
+        populateDropdown("teamA");
+        populateDropdown("teamB");
     </script>
-</head>
-<body>
-    <h1>Team Probability Calculator</h1>
-
-    <label for="teamA">Select Player for Team A:</label>
-    <select id="teamA">
-        <option value="">-- Select a player --</option>
-    </select>
-
-    <br><br>
-
-    <label for="teamB">Select Player for Team B:</label>
-    <select id="teamB">
-        <option value="">-- Select a player --</option>
-    </select>
-
-    <br><br>
-
-    <label for="adjustment">Input Number:</label>
-    <input type="number" id="adjustment" step="any">
-
-    <br><br>
-
-    <button onclick="calculateProbability()">Calculate</button>
-
-    <h2 id="result"></h2>
 </body>
 </html>
