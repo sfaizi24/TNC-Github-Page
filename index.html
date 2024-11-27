@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Team Probability Calculator2</title>
+    <title>Player Data and Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Team Probability Calculator2</h1>
+    <h1>Player Data Calculator</h1>
 
-    <label for="teamA">Select Player for Team A:</label>
+    <label for="teamA">Select Winning Team:</label>
     <select id="teamA">
         <option value="">-- Select a player --</option>
     </select>
 
     <br><br>
 
-    <label for="teamB">Select Player for Team B:</label>
+    <label for="teamB">Select Losing Team:</label>
     <select id="teamB">
         <option value="">-- Select a player --</option>
     </select>
 
     <br><br>
 
-    <label for="adjustment">Input Number:</label>
+    <label for="adjustment">Win By (optional):</label>
     <input type="number" id="adjustment" step="any">
 
     <br><br>
@@ -29,11 +30,8 @@
 
     <h2 id="result"></h2>
 
-    <!-- Canvas for the chart -->
     <canvas id="playerChart" width="800" height="400"></canvas>
 
-    <!-- Include Chart.js and your script at the end -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
     <script>
         // Player data
         const players = {
@@ -46,4 +44,109 @@
             "sfaizi24": { variance: 128, model_expected: 118, sleeper_proj: 114, hot_factor: 3.5 },
             "asadrafique": { variance: 198, model_expected: 118, sleeper_proj: 116, hot_factor: 1.9 },
             "Ammady": { variance: 298, model_expected: 120, sleeper_proj: 109, hot_factor: 11.1 },
-            "Jibraan": { variance: 483, model_expected: 126, sleeper_proj: 124, hot_factor: 1.7 }
+            "Jibraan": { variance: 483, model_expected: 126, sleeper_proj: 124, hot_factor: 1.7 },
+            "Bilal879": { variance: 286, model_expected: 130, sleeper_proj: 125, hot_factor: 5.0 },
+            "amir812": { variance: 255, model_expected: 134, sleeper_proj: 129, hot_factor: 4.6 }
+        };
+
+        // Populate dropdowns
+        function populateDropdown(id) {
+            const dropdown = document.getElementById(id);
+            for (const player in players) {
+                const option = document.createElement("option");
+                option.value = player;
+                option.textContent = player;
+                dropdown.appendChild(option);
+            }
+        }
+
+        // Calculate probability
+        function calculateProbability() {
+            const teamAPlayer = document.getElementById("teamA").value;
+            const teamBPlayer = document.getElementById("teamB").value;
+
+            if (teamAPlayer && teamBPlayer) {
+                const teamAData = players[teamAPlayer];
+                const teamBData = players[teamBPlayer];
+
+                // Get the inputted number
+                const adjustmentInput = document.getElementById("adjustment").value;
+                const adjustmentNumber = parseFloat(adjustmentInput) || 0; // Defaults to 0 if empty or invalid
+
+                // Modify the numerator
+                const numerator = teamAData.model_expected - teamBData.model_expected - adjustmentNumber;
+                const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
+                const zScore = numerator / denominator;
+
+                // Standard normal CDF using erf function
+                const probability = 0.5 * (1 + erf(zScore / Math.sqrt(2)));
+
+                // Display the probability as a percentage
+                document.getElementById("result").textContent = `Probability: ${(probability * 100).toFixed(2)}%`;
+            } else {
+                document.getElementById("result").textContent = "Please select both players.";
+            }
+        }
+
+        // Implement the error function (erf)
+        function erf(x) {
+            const sign = x >= 0 ? 1 : -1;
+            x = Math.abs(x);
+            const a1 = 0.254829592, a2 = -0.284496736;
+            const a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429;
+            const p = 0.3275911;
+            const t = 1 / (1 + p * x);
+            const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+            return sign * y;
+        }
+
+        // Populate dropdowns immediately
+        populateDropdown("teamA");
+        populateDropdown("teamB");
+
+        // Generate the line graph
+        const ctx = document.getElementById("playerChart").getContext("2d");
+        const playerNames = Object.keys(players);
+        const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
+        const modelExpectedData = playerNames.map(player => players[player].model_expected);
+
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: playerNames,
+                datasets: [
+                    {
+                        label: "Sleeper Proj",
+                        data: sleeperProjData,
+                        borderColor: "blue",
+                        fill: false
+                    },
+                    {
+                        label: "Model Expected",
+                        data: modelExpectedData,
+                        borderColor: "green",
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Players"
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Values"
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
