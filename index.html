@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Team Score Calculator</title>
+    <title>Team Probability Calculator</title>
     <script>
         // Player data
         const players = {
@@ -31,8 +30,8 @@
             }
         }
 
-        // Function to calculate the formula
-        function calculateScore() {
+        // Function to calculate the probability from the z-score
+        function calculateProbability() {
             const teamAPlayer = document.getElementById("teamA").value;
             const teamBPlayer = document.getElementById("teamB").value;
 
@@ -42,25 +41,26 @@
 
                 const numerator = teamAData.model_expected - teamBData.model_expected;
                 const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
-                const result = numerator / denominator;
+                const zScore = numerator / denominator;
 
-                document.getElementById("result").textContent =
-                    `ZScore: = ${result.toFixed(2)}`;
+                // Convert z-score to probability using the standard normal distribution CDF
+                const probability = (0.5 * (1 + Math.erf(zScore / Math.sqrt(2)))).toFixed(4);
+
+                document.getElementById("result").textContent = `Probability: ${probability}`;
             } else {
                 document.getElementById("result").textContent = "Please select both players.";
             }
         }
 
         // Populate dropdowns when the page loads
-        window.onload = function () {
+        window.onload = function() {
             populateDropdown("teamA");
             populateDropdown("teamB");
         };
     </script>
 </head>
-
 <body>
-    <h1>Team Score Calculator</h1>
+    <h1>Team Probability Calculator</h1>
 
     <label for="teamA">Select Player for Team A:</label>
     <select id="teamA">
@@ -76,9 +76,8 @@
 
     <br><br>
 
-    <button onclick="calculateScore()">Calculate</button>
+    <button onclick="calculateProbability()">Calculate</button>
 
     <h2 id="result"></h2>
 </body>
-
 </html>
