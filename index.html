@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Team Probability2 Calculator</title>
+    <title>Team Probability Calculator</title>
     <script>
         // Player data
         const players = {
@@ -39,7 +39,12 @@
                 const teamAData = players[teamAPlayer];
                 const teamBData = players[teamBPlayer];
 
-                const numerator = teamAData.model_expected - teamBData.model_expected;
+                // Get the inputted number
+                const adjustmentInput = document.getElementById("adjustment").value;
+                const adjustmentNumber = parseFloat(adjustmentInput) || 0; // Defaults to 0 if empty or invalid
+
+                // Modify the numerator
+                const numerator = teamAData.model_expected - teamBData.model_expected - adjustmentNumber;
                 const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
                 const zScore = numerator / denominator;
 
@@ -83,14 +88,4 @@
     <br><br>
 
     <label for="teamB">Select Player for Team B:</label>
-    <select id="teamB">
-        <option value="">-- Select a player --</option>
-    </select>
-
-    <br><br>
-
-    <button onclick="calculateProbability()">Calculate</button>
-
-    <h2 id="result"></h2>
-</body>
-</html>
+    <select id="teamB
