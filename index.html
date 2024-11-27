@@ -2,22 +2,22 @@
 <html>
 
 <head>
-    <title>Team Variance Calculator</title>
+    <title>Team Score Calculator</title>
     <script>
-        // Player data (variance values only)
+        // Player data
         const players = {
-            "Shahudit": 283,
-            "mehdidrissi": 123,
-            "umarrahman30": 97,
-            "xavierking4": 150,
-            "sahirsyed30": 170,
-            "SumHead": 101,
-            "sfaizi24": 128,
-            "asadrafique": 198,
-            "Ammady": 298,
-            "Jibraan": 483,
-            "Bilal879": 286,
-            "amir812": 255
+            "Shahudit": { variance: 283, model_expected: 104.68 },
+            "mehdidrissi": { variance: 123, model_expected: 110.63 },
+            "umarrahman30": { variance: 97, model_expected: 113.84 },
+            "xavierking4": { variance: 150, model_expected: 113.99 },
+            "sahirsyed30": { variance: 170, model_expected: 115.16 },
+            "SumHead": { variance: 101, model_expected: 116.12 },
+            "sfaizi24": { variance: 128, model_expected: 117.50 },
+            "asadrafique": { variance: 198, model_expected: 117.91 },
+            "Ammady": { variance: 298, model_expected: 120.09 },
+            "Jibraan": { variance: 483, model_expected: 125.50 },
+            "Bilal879": { variance: 286, model_expected: 129.78 },
+            "amir812": { variance: 255, model_expected: 133.61 }
         };
 
         // Function to populate dropdown options
@@ -31,19 +31,21 @@
             }
         }
 
-        // Function to calculate square root of summed variance
-        function calculateVariance() {
+        // Function to calculate the formula
+        function calculateScore() {
             const teamAPlayer = document.getElementById("teamA").value;
             const teamBPlayer = document.getElementById("teamB").value;
 
             if (teamAPlayer && teamBPlayer) {
-                const teamAVariance = players[teamAPlayer];
-                const teamBVariance = players[teamBPlayer];
-                const totalVariance = teamAVariance + teamBVariance;
-                const sqrtVariance = Math.sqrt(totalVariance);
+                const teamAData = players[teamAPlayer];
+                const teamBData = players[teamBPlayer];
+
+                const numerator = teamAData.model_expected - teamBData.model_expected;
+                const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
+                const result = numerator / denominator;
 
                 document.getElementById("result").textContent =
-                    `Result: ${sqrtVariance.toFixed(2)}`;
+                    `ZScore: = ${result.toFixed(2)}`;
             } else {
                 document.getElementById("result").textContent = "Please select both players.";
             }
@@ -58,7 +60,7 @@
 </head>
 
 <body>
-    <h1>Team Variance Calculator</h1>
+    <h1>Team Score Calculator</h1>
 
     <label for="teamA">Select Player for Team A:</label>
     <select id="teamA">
@@ -74,7 +76,7 @@
 
     <br><br>
 
-    <button onclick="calculateVariance()">Calculate</button>
+    <button onclick="calculateScore()">Calculate</button>
 
     <h2 id="result"></h2>
 </body>
