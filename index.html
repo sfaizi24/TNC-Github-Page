@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Team Variance Calculator</title>
+    <script>
+        // Player data (variance values only)
+        const players = {
+            "Shahudit": 283,
+            "mehdidrissi": 123,
+            "umarrahman30": 97,
+            "xavierking4": 150,
+            "sahirsyed30": 170,
+            "SumHead": 101,
+            "sfaizi24": 128,
+            "asadrafique": 198,
+            "Ammady": 298,
+            "Jibraan": 483,
+            "Bilal879": 286,
+            "amir812": 255
+        };
+
+        // Function to populate dropdown options
+        function populateDropdown(id) {
+            const dropdown = document.getElementById(id);
+            for (const player in players) {
+                const option = document.createElement("option");
+                option.value = player;
+                option.textContent = player;
+                dropdown.appendChild(option);
+            }
+        }
+
+        // Function to calculate square root of summed variance
+        function calculateVariance() {
+            const teamAPlayer = document.getElementById("teamA").value;
+            const teamBPlayer = document.getElementById("teamB").value;
+
+            if (teamAPlayer && teamBPlayer) {
+                const teamAVariance = players[teamAPlayer];
+                const teamBVariance = players[teamBPlayer];
+                const totalVariance = teamAVariance + teamBVariance;
+                const sqrtVariance = Math.sqrt(totalVariance);
+
+                document.getElementById("result").textContent =
+                    `Result: √(${teamAVariance} + ${teamBVariance}) = ${sqrtVariance.toFixed(2)}`;
+            } else {
+                document.getElementById("result").textContent = "Please select both players.";
+            }
+        }
+
+        // Populate dropdowns when the page loads
+        window.onload = function () {
+            populateDropdown("teamA");
+            populateDropdown("teamB");
+        };
+    </script>
+</head>
+
+<body>
+    <h1>Team Variance Calculator</h1>
+
+    <label for="teamA">Select Player for Team A:</label>
+    <select id="teamA">
+        <option value="">-- Select a player --</option>
+    </select>
+
+    <br><br>
+
+    <label for="teamB">Select Player for Team B:</label>
+    <select id="teamB">
+        <option value="">-- Select a player --</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="calculateVariance()">Calculate</button>
+
+    <h2 id="result"></h2>
+</body>
+
+</html>
