@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>TNC The Model™ V2 Week 13 Predictions</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <h1>TNC The Model™ V2 Week 13 Predictions</h1>
 
@@ -116,32 +118,38 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: "Sleeper Proj",
+                        label: "Sleeper Projections",
                         data: sleeperProjData,
                         borderColor: "#003a6f",
-                        fill: false
+                        fill: true
                     },
                     {
-                        label: "Model Expected",
+                        label: "The Model™",
                         data: modelExpectedData,
-                        borderColor: "#12830",
-                        fill: false
+                        borderColor: "#a12830",
+                        fill: true
                     }
                 ]
             },
             options: {
                 responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "The Model V2™ vs Sleeper Projections"
+                    }
+                },
                 scales: {
                     x: {
                         title: {
                             display: true,
-                            text: "Players"
+                            text: "Teams"
                         }
                     },
                     y: {
                         title: {
                             display: true,
-                            text: "Values"
+                            text: "Points"
                         }
                     }
                 }
@@ -149,4 +157,5 @@
         });
     </script>
 </body>
+
 </html>
