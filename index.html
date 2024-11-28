@@ -124,14 +124,16 @@
         }
 
         /* Chart Styles */
-        #playerChartContainer {
+        #playerChartContainer,
+        #varianceChartContainer {
             max-width: 1000px;
             margin: 50px auto;
         }
 
-        #playerChart {
+        #playerChart,
+        #varianceChart {
             width: 100%;
-            height: 500px; /* Set a fixed height */
+            height: 500px;
         }
 
         /* Content Sections */
@@ -178,7 +180,8 @@
                 font-size: 24px;
             }
 
-            #playerChart {
+            #playerChart,
+            #varianceChart {
                 height: 300px; /* Adjust height for smaller screens */
             }
         }
@@ -193,7 +196,7 @@
     <!-- Tab navigation -->
     <div class="tab-container">
         <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
-        <div class="tab" onclick="switchTab('bulletTab')">Roster Assumptions Made</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
         <div class="tab" onclick="switchTab('explanationTab')">How The Model Works</div>
     </div>
 
@@ -215,15 +218,21 @@
 
         <div class="form-group">
             <label for="adjustment">Win By (optional):</label>
-            <input type="number" id="adjustment" step="any" placeholder="Enter Point Differential Needed">
+            <input type="number" id="adjustment" step="any" placeholder="Enter point difference">
         </div>
 
         <button onclick="calculateProbability()">Calculate</button>
 
         <h2 id="result"></h2>
 
+        <!-- Existing chart container -->
         <div id="playerChartContainer">
             <canvas id="playerChart"></canvas>
+        </div>
+
+        <!-- New chart container -->
+        <div id="varianceChartContainer">
+            <canvas id="varianceChart"></canvas>
         </div>
     </div>
 
@@ -231,7 +240,7 @@
         <div class="content-section">
             <h2>Assumptions Made</h2>
             <ul>
-                <li><strong>Projection data taken from Wednesday, Nov 27th snapshot.</strong></li>
+                <li>Projection data taken from Wednesday, Nov 27th snapshot.</li>
                 <li>Mehdi has JK Dobbins out.</li>
                 <li>Sumedh gets Pacheco back.</li>
                 <li>Umar gets a new TE and Kicker.</li>
@@ -242,20 +251,20 @@
     </div>
 
     <div id="explanationTab" class="tab-content">
-    <div class="content-section">
-        <h2>How The Model V2™ Works</h2>
-        <p>
-            The Model V2™ uses three features to drive the prediction model:
-        </p>
-        <ul>
-            <li><strong>Points Above Projection</strong></li>
-            <li><strong>Variance</strong></li>
-            <li><strong>Sleeper Projections</strong></li>
-        </ul>
-        <p>
-            Points Above Projection and Variance are recency-weighted using <em>r²</em> for use in the prediction model.
-        </p>
-    </div>
+        <div class="content-section">
+            <h2>How The Model V2™ Works</h2>
+            <p>
+                The Model V2™ uses three features to drive the prediction model:
+            </p>
+            <ul>
+                <li><strong>Points Above Projection</strong></li>
+                <li><strong>Variance</strong></li>
+                <li><strong>Sleeper Projections</strong></li>
+            </ul>
+            <p>
+                Points Above Projection and Variance are recency-weighted using <em>r<sup>2</sup></em> for use in the prediction model.
+            </p>
+        </div>
     </div>
 
     <script>
@@ -342,7 +351,7 @@
         populateDropdown("teamA");
         populateDropdown("teamB");
 
-        // Generate the line graph
+        // Generate the first chart (Sleeper Projections vs The Model™ Expected)
         const ctx = document.getElementById("playerChart").getContext("2d");
         const playerNames = Object.keys(players);
         const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
@@ -392,7 +401,7 @@
                             },
                             color: '#1D1D1F'
                         }
-                    },
+                    }
                 },
                 scales: {
                     x: {
@@ -416,6 +425,131 @@
                         title: {
                             display: true,
                             text: "Points",
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#1D1D1F'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            },
+                            color: '#1D1D1F'
+                        }
+                    }
+                }
+            }
+        });
+
+        // Prepare data for the new chart (Variance vs Expected Points)
+        const stdDevData = playerNames.map(player => Math.sqrt(players[player].variance));
+        const expectedPointsData = playerNames.map(player => players[player].model_expected);
+
+        // Generate the variance vs expected points chart
+        const varianceCtx = document.getElementById("varianceChart").getContext("2d");
+
+        new Chart(varianceCtx, {
+            type: 'line',
+            data: {
+                labels: playerNames,
+                datasets: [
+                    {
+                        label: 'Expected Points',
+                        data: expectedPointsData,
+                        borderColor: '#0071E3',
+                        backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                        yAxisID: 'y',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Standard Deviation (√Variance)',
+                        data: stdDevData,
+                        borderColor: '#FF9500',
+                        backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                        yAxisID: 'y1',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Allows the chart to fill the container
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                stacked: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Variance vs Expected Points',
+                        font: {
+                            size: 24,
+                            weight: '600'
+                        },
+                        color: '#1D1D1F'
+                    },
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 16
+                            },
+                            color: '#1D1D1F'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Expected Points',
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#1D1D1F'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            },
+                            color: '#1D1D1F'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: {
+                            drawOnChartArea: false, // Only want the grid lines for one axis
+                        },
+                        title: {
+                            display: true,
+                            text: 'Standard Deviation',
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#1D1D1F'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            },
+                            color: '#1D1D1F'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Teams',
                             font: {
                                 size: 18,
                                 weight: '600'
