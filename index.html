@@ -193,7 +193,7 @@
     <!-- Tab navigation -->
     <div class="tab-container">
         <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
-        <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Roster Assumptions Made</div>
         <div class="tab" onclick="switchTab('explanationTab')">How The Model Works</div>
     </div>
 
@@ -215,7 +215,7 @@
 
         <div class="form-group">
             <label for="adjustment">Win By (optional):</label>
-            <input type="number" id="adjustment" step="any" placeholder="Enter point difference">
+            <input type="number" id="adjustment" step="any" placeholder="Enter Point Differential Needed">
         </div>
 
         <button onclick="calculateProbability()">Calculate</button>
@@ -231,7 +231,7 @@
         <div class="content-section">
             <h2>Assumptions Made</h2>
             <ul>
-                <li>Projection data taken from Wednesday, Nov 27th snapshot.</li>
+                <li><strong>Projection data taken from Wednesday, Nov 27th snapshot.</strong></li>
                 <li>Mehdi has JK Dobbins out.</li>
                 <li>Sumedh gets Pacheco back.</li>
                 <li>Umar gets a new TE and Kicker.</li>
@@ -242,14 +242,20 @@
     </div>
 
     <div id="explanationTab" class="tab-content">
-        <div class="content-section">
-            <h2>How The Model V2™ Works</h2>
-            <p>
-                The Model V2™ calculates recency-weighted points above projection to determine a Hot-Factor.
-                This Hot-Factor is then used to calculate Expected Points. Additionally, the model calculates
-                recency-weighted variance to assess which teams are more or less explosive.
-            </p>
-        </div>
+    <div class="content-section">
+        <h2>How The Model V2™ Works</h2>
+        <p>
+            The Model V2™ uses three features to drive the prediction model:
+        </p>
+        <ul>
+            <li><strong>Points Above Projection</strong></li>
+            <li><strong>Variance</strong></li>
+            <li><strong>Sleeper Projections</strong></li>
+        </ul>
+        <p>
+            Points Above Projection and Variance are recency-weighted using <em>r²</em> for use in the prediction model.
+        </p>
+    </div>
     </div>
 
     <script>
