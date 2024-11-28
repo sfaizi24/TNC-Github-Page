@@ -41,22 +41,22 @@
 
     <!-- Tab navigation -->
     <div class="tab-container">
-        <div class="tab active" onclick="switchTab('chartTab')">Chart</div>
-        <div class="tab" onclick="switchTab('bulletTab')">Bullet Points</div>
+        <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Assumptions Made</div>
     </div>
 
     <!-- Tab content -->
     <div id="chartTab" class="tab-content active">
         <label for="teamA">Select Winning Team:</label>
         <select id="teamA">
-            <option value="">-- Select a player --</option>
+            <option value="">-- Select a Team --</option>
         </select>
 
         <br><br>
 
         <label for="teamB">Select Losing Team:</label>
         <select id="teamB">
-            <option value="">-- Select a player --</option>
+            <option value="">-- Select a Team --</option>
         </select>
 
         <br><br>
@@ -70,15 +70,19 @@
 
         <h2 id="result"></h2>
 
-        <canvas id="playerChart" width="800" height="400"></canvas>
+        <canvas id="playerChart" width="600" height="300"></canvas>
     </div>
 
     <div id="bulletTab" class="tab-content">
-        <h2>Add Bullet Points</h2>
-        <textarea id="bulletInput" rows="3" cols="50" placeholder="Type your bullet point here..."></textarea>
-        <br><br>
-        <button onclick="addBulletPoint()">Add Bullet Point</button>
-        <ul id="bulletList"></ul>
+        <h2>Assumptions Made</h2>
+        <ul>
+            <li>Projection data taken from Wednesday, Nov 27th snapshot</li>
+            <li>Mehdi has JK Dobbins Out.</li>
+            <li>Sumedh gets Pacheco back</li>
+            <li>Umar gets a new TE and Kicker</li>
+            <li>Dany starts Burrow and Davante</li>
+            <li>Samer has Josh Downs out</li>
+        </ul>
     </div>
 
     <script>
@@ -161,20 +165,6 @@
             return sign * y;
         }
 
-        // Bullet points functionality
-        function addBulletPoint() {
-            const bulletInput = document.getElementById("bulletInput");
-            const bulletText = bulletInput.value.trim();
-
-            if (bulletText) {
-                const bulletList = document.getElementById("bulletList");
-                const listItem = document.createElement("li");
-                listItem.textContent = bulletText;
-                bulletList.appendChild(listItem);
-                bulletInput.value = ""; // Clear the input field
-            }
-        }
-
         // Populate dropdowns immediately
         populateDropdown("teamA");
         populateDropdown("teamB");
@@ -191,13 +181,13 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: "Sleeper Proj",
+                        label: "Sleeper Projections",
                         data: sleeperProjData,
                         borderColor: "#003a6f",
                         fill: false
                     },
                     {
-                        label: "Model Expected",
+                        label: "The Model™ Expected",
                         data: modelExpectedData,
                         borderColor: "#a12830",
                         fill: false
@@ -209,7 +199,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: "How to Train Your Dragon"
+                        text: "The Model V2™ vs Sleeper Projections"
                     }
                 },
                 scales: {
