@@ -7,7 +7,9 @@
     <!-- Use Apple System Fonts -->
     <style>
         /* Reset CSS */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -22,7 +24,8 @@
             padding: 20px;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             font-weight: 600;
         }
 
@@ -79,7 +82,8 @@
             margin-bottom: 10px;
         }
 
-        select, input[type="number"] {
+        select,
+        input[type="number"] {
             width: 100%;
             padding: 12px;
             font-size: 17px;
@@ -91,7 +95,8 @@
             margin-bottom: 20px;
         }
 
-        select:focus, input[type="number"]:focus {
+        select:focus,
+        input[type="number"]:focus {
             border-color: #0071E3;
         }
 
@@ -182,7 +187,8 @@
 
             #playerChart,
             #varianceChart {
-                height: 300px; /* Adjust height for smaller screens */
+                height: 300px;
+                /* Adjust height for smaller screens */
             }
         }
     </style>
@@ -240,7 +246,7 @@
         <div class="content-section">
             <h2>Assumptions Made</h2>
             <ul>
-                <li>Projection data taken from Wednesday, Nov 27th snapshot.</li>
+                <li><strong>Projection Data taken from Wednesday, Nov 27th snapshot.</strong></li>
                 <li>Mehdi has JK Dobbins out.</li>
                 <li>Sumedh gets Pacheco back.</li>
                 <li>Umar gets a new TE and Kicker.</li>
@@ -262,7 +268,8 @@
                 <li><strong>Sleeper Projections</strong></li>
             </ul>
             <p>
-                Points Above Projection and Variance are recency-weighted using <em>r<sup>2</sup></em> for use in the prediction model.
+                Points Above Projection and Variance are recency-weighted using <em>r<sup>2</sup></em> for use in the
+                prediction model.
             </p>
         </div>
     </div>
@@ -455,18 +462,18 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: 'Expected Points',
+                        label: 'The Model™ Expected"',
                         data: expectedPointsData,
-                        borderColor: '#0071E3',
+                        borderColor: '#1D1D1F',
                         backgroundColor: 'rgba(0, 113, 227, 0.1)',
                         yAxisID: 'y',
                         tension: 0.3,
                         fill: true
                     },
                     {
-                        label: 'Standard Deviation (√Variance)',
+                        label: 'Standard Deviation',
                         data: stdDevData,
-                        borderColor: '#FF9500',
+                        borderColor: '#a12830',
                         backgroundColor: 'rgba(255, 149, 0, 0.1)',
                         yAxisID: 'y1',
                         tension: 0.3,
@@ -485,7 +492,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Variance vs Expected Points',
+                        text: 'Recency-Weighted Volatility Per Team',
                         font: {
                             size: 24,
                             weight: '600'
