@@ -130,13 +130,15 @@
 
         /* Chart Styles */
         #playerChartContainer,
-        #varianceChartContainer {
+        #varianceChartContainer,
+        #weeksAboveChartContainer {
             max-width: 1000px;
             margin: 50px auto;
         }
 
         #playerChart,
-        #varianceChart {
+        #varianceChart,
+        #weeksAboveChart {
             width: 100%;
             height: 500px;
         }
@@ -186,7 +188,8 @@
             }
 
             #playerChart,
-            #varianceChart {
+            #varianceChart,
+            #weeksAboveChart {
                 height: 300px;
                 /* Adjust height for smaller screens */
             }
@@ -236,9 +239,14 @@
             <canvas id="playerChart"></canvas>
         </div>
 
-        <!-- New chart container -->
+        <!-- Variance vs Expected Points chart container -->
         <div id="varianceChartContainer">
             <canvas id="varianceChart"></canvas>
+        </div>
+
+        <!-- Weeks Above Projection chart container -->
+        <div id="weeksAboveChartContainer">
+            <canvas id="weeksAboveChart"></canvas>
         </div>
     </div>
 
@@ -252,6 +260,7 @@
                 <li>Umar gets a new TE and Kicker.</li>
                 <li>Dany starts Burrow and Davante.</li>
                 <li>Samer has Josh Downs out.</li>
+                <li>Ammad gets a new Defense.</li>
             </ul>
         </div>
     </div>
@@ -302,6 +311,30 @@
             "Bilal879": { variance: 286, model_expected: 130, sleeper_proj: 125, hot_factor: 5.0 },
             "amir812": { variance: 255, model_expected: 134, sleeper_proj: 129, hot_factor: 4.6 }
         };
+
+        // Weekly data per team
+        const weeklyData = {
+            "amir812": [2.5, -3.2, -5.4, -2.6, -8.2, -6.7, -12.2, 13.5, 45.2, 21.6, 5.8, 4.4],
+            "Ammady": [2.4, -3.0, 0.9, 3.8, 15.2, 1.3, 16.2, 9.6, 13.8, -13.6, 41.5, 45.2],
+            "asadrafique": [-0.5, 0.6, -3.9, 4.7, 0.6, 5.6, -21.3, 1.4, 8.8, -11.2, 0.0, 38.9],
+            "Bilal879": [-1.0, -3.7, 0.7, -3.2, 5.7, -8.2, 10.9, 8.5, -22.8, 46.1, 5.9, 21.3],
+            "Jibraan": [0.1, -2.5, 1.9, 4.2, 5.2, 14.2, 11.9, -15.8, -4.8, -23.5, 57.8, -28.1],
+            "mehdidrissi": [1.5, 0.5, -6.3, 7.7, 4.1, -3.8, -26.0, 7.7, 3.3, -9.2, -9.6, -22.7],
+            "sahirsyed30": [-1.8, 1.1, -3.8, -2.1, 6.8, -0.8, 4.5, 22.6, -5.5, 20.6, -24.6, -14.3],
+            "sfaizi24": [-1.4, -1.4, 1.3, 2.0, 7.6, 17.2, 16.5, -4.4, -8.5, 20.6, -7.1, 27.0],
+            "Shahudit": [0.5, 2.4, 12.1, 2.6, -6.8, 10.6, -7.9, 6.8, 19.4, -28.1, -38.3, 19.4],
+            "SumHead": [-2.0, -0.3, 2.4, 0.4, -13.9, 0.2, 20.9, 12.1, 5.1, -15.0, 10.9, 5.1],
+            "umarrahman30": [-0.5, 3.6, -1.2, -12.0, 18.5, -6.2, 3.3, -1.0, -20.5, -15.0, -6.1, -12.8],
+            "xavierking4": [0.5, 6.6, -5.0, 0.3, 14.0, 2.5, -13.2, -1.5, 27.9, 7.2, 8.5, -19.3]
+        };
+
+        // Calculate the number of weeks each team was above projection
+        const weeksAboveProjection = {};
+
+        for (const team in weeklyData) {
+            const positiveWeeks = weeklyData[team].filter(value => value > 0).length;
+            weeksAboveProjection[team] = positiveWeeks;
+        }
 
         // Populate dropdowns
         function populateDropdown(id) {
@@ -358,9 +391,10 @@
         populateDropdown("teamA");
         populateDropdown("teamB");
 
+        const playerNames = Object.keys(players);
+
         // Generate the first chart (Sleeper Projections vs The Model™ Expected)
         const ctx = document.getElementById("playerChart").getContext("2d");
-        const playerNames = Object.keys(players);
         const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
         const modelExpectedData = playerNames.map(player => players[player].model_expected);
 
@@ -449,12 +483,9 @@
             }
         });
 
-        // Prepare data for the new chart (Variance vs Expected Points)
-        const stdDevData = playerNames.map(player => Math.sqrt(players[player].variance));
-        const expectedPointsData = playerNames.map(player => players[player].model_expected);
-
         // Generate the variance vs expected points chart
         const varianceCtx = document.getElementById("varianceChart").getContext("2d");
+        const stdDevData = playerNames.map(player => Math.sqrt(players[player].variance));
 
         new Chart(varianceCtx, {
             type: 'line',
@@ -462,19 +493,19 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: 'The Model™ Expected"',
-                        data: expectedPointsData,
+                        label: 'The Model™ Expected',
+                        data: modelExpectedData,
                         borderColor: '#1D1D1F',
-                        backgroundColor: 'rgba(0, 113, 227, 0.1)',
+                        backgroundColor: 'rgba(29, 29, 31, 0.1)',
                         yAxisID: 'y',
                         tension: 0.3,
                         fill: true
                     },
                     {
-                        label: 'Volatility',
+                        label: 'Volatility (√Variance)',
                         data: stdDevData,
                         borderColor: '#a12830',
-                        backgroundColor: 'rgba(255, 149, 0, 0.1)',
+                        backgroundColor: 'rgba(161, 40, 48, 0.1)',
                         yAxisID: 'y1',
                         tension: 0.3,
                         fill: true
@@ -569,6 +600,82 @@
                             },
                             color: '#1D1D1F'
                         }
+                    }
+                }
+            }
+        });
+
+        // Generate the Weeks Above Projection chart
+        const weeksAboveCtx = document.getElementById("weeksAboveChart").getContext("2d");
+        const positiveWeeksData = playerNames.map(player => weeksAboveProjection[player]);
+
+        new Chart(weeksAboveCtx, {
+            type: 'bar',
+            data: {
+                labels: playerNames,
+                datasets: [
+                    {
+                        label: 'Weeks Scored Above Projection',
+                        data: positiveWeeksData,
+                        backgroundColor: '#0071E3',
+                        borderColor: '#1D1D1F',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Weeks Above Projection',
+                        font: {
+                            size: 24,
+                            weight: '600'
+                        },
+                        color: '#1D1D1F'
+                    },
+                    legend: {
+                        display: false // Hide legend since there's only one dataset
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Teams',
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#1D1D1F'
+                        },
+                        ticks: {
+                            font: {
+                                size: 14
+                            },
+                            color: '#1D1D1F'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Number of Weeks',
+                            font: {
+                                size: 18,
+                                weight: '600'
+                            },
+                            color: '#1D1D1F'
+                        },
+                        ticks: {
+                            stepSize: 1,
+                            font: {
+                                size: 14
+                            },
+                            color: '#1D1D1F'
+                        },
+                        beginAtZero: true
                     }
                 }
             }
