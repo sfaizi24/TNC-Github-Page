@@ -328,12 +328,19 @@
             "xavierking4": [0.5, 6.6, -5.0, 0.3, 14.0, 2.5, -13.2, -1.5, 27.9, 7.2, 8.5, -19.3]
         };
 
-        // Calculate the number of weeks each team was above projection
-        const weeksAboveProjection = {};
+        // Calculate the number of positive weeks in first 8 weeks and last 4 weeks
+        const weeksAboveProjectionFirst8 = {};
+        const weeksAboveProjectionLast4 = {};
 
         for (const team in weeklyData) {
-            const positiveWeeks = weeklyData[team].filter(value => value > 0).length;
-            weeksAboveProjection[team] = positiveWeeks;
+            const first8Weeks = weeklyData[team].slice(0, 8);
+            const last4Weeks = weeklyData[team].slice(8, 12);
+
+            const positiveWeeksFirst8 = first8Weeks.filter(value => value > 0).length;
+            const positiveWeeksLast4 = last4Weeks.filter(value => value > 0).length;
+
+            weeksAboveProjectionFirst8[team] = positiveWeeksFirst8;
+            weeksAboveProjectionLast4[team] = positiveWeeksLast4;
         }
 
         // Populate dropdowns
@@ -605,9 +612,10 @@
             }
         });
 
-        // Generate the Weeks Above Projection chart
+        // Generate the Weeks Above Projection chart (Stacked Bar Chart)
         const weeksAboveCtx = document.getElementById("weeksAboveChart").getContext("2d");
-        const positiveWeeksData = playerNames.map(player => weeksAboveProjection[player]);
+        const positiveWeeksFirst8Data = playerNames.map(player => weeksAboveProjectionFirst8[player]);
+        const positiveWeeksLast4Data = playerNames.map(player => weeksAboveProjectionLast4[player]);
 
         new Chart(weeksAboveCtx, {
             type: 'bar',
@@ -615,11 +623,14 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: 'Weeks Scored Above Projection',
-                        data: positiveWeeksData,
+                        label: 'Weeks 1-8',
+                        data: positiveWeeksFirst8Data,
                         backgroundColor: '#0071E3',
-                        borderColor: '#1D1D1F',
-                        borderWidth: 1
+                    },
+                    {
+                        label: 'Weeks 9-12',
+                        data: positiveWeeksLast4Data,
+                        backgroundColor: '#FF9500',
                     }
                 ]
             },
@@ -629,7 +640,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Weeks Above Projection',
+                        text: 'Weeks Above Projection (Stacked)',
                         font: {
                             size: 24,
                             weight: '600'
@@ -637,11 +648,26 @@
                         color: '#1D1D1F'
                     },
                     legend: {
-                        display: false // Hide legend since there's only one dataset
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 16
+                            },
+                            color: '#1D1D1F'
+                        }
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
                     }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false
                 },
                 scales: {
                     x: {
+                        stacked: true,
                         title: {
                             display: true,
                             text: 'Teams',
@@ -659,6 +685,8 @@
                         }
                     },
                     y: {
+                        stacked: true,
+                        beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Number of Weeks',
@@ -674,8 +702,7 @@
                                 size: 14
                             },
                             color: '#1D1D1F'
-                        },
-                        beginAtZero: true
+                        }
                     }
                 }
             }
