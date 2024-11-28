@@ -1,185 +1,365 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<style>
-  body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8fafc;
-    color: #334155;
-  }
+    <meta charset="UTF-8">
+    <title>TNC The Model™ V2 Week 13 Predictions</title>
+    <!-- Include Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Add CSS Reset -->
+    <style>
+        /* CSS Reset */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  h1 {
-    color: #1e293b;
-    text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
-  }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 20px;
+        }
 
-  .tab-container {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 2rem;
-    border-bottom: 2px solid #e2e8f0;
-  }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
 
-  .tab {
-    padding: 12px 24px;
-    cursor: pointer;
-    border: none;
-    background: none;
-    color: #64748b;
-    font-weight: 500;
-    transition: all 0.2s;
-  }
+        /* Tab navigation styles */
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
 
-  .tab:hover {
-    color: #334155;
-  }
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background-color: #e0e0e0;
+            margin: 0 5px;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s;
+        }
 
-  .tab.active {
-    color: #2563eb;
-    border-bottom: 2px solid #2563eb;
-    margin-bottom: -2px;
-  }
+        .tab:hover {
+            background-color: #d5d5d5;
+        }
 
-  .tab-content {
-    display: none;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  }
+        .tab.active {
+            background-color: #fff;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 2px solid #2c3e50;
+        }
 
-  .tab-content.active {
-    display: block;
-  }
+        .tab-content {
+            border: 1px solid #ccc;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 0 5px 5px 5px;
+            display: none;
+        }
 
-  select, input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-    background-color: white;
-  }
+        .tab-content.active {
+            display: block;
+        }
 
-  button {
-    background-color: #2563eb;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    margin-top: 16px;
-  }
+        /* Form styles */
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
 
-  button:hover {
-    background-color: #1d4ed8;
-  }
+        select, input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-  #result {
-    margin-top: 2rem;
-  }
+        button {
+            background-color: #2c3e50;
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
 
-  ul {
-    list-style-type: none;
-    padding-left: 0;
-  }
+        button:hover {
+            background-color: #1a242f;
+        }
 
-  li {
-    padding: 8px 0;
-    border-bottom: 1px solid #e2e8f0;
-  }
+        /* Result styles */
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
 
-  li:last-child {
-    border-bottom: none;
-  }
+        /* Chart styles */
+        #playerChart {
+            max-width: 800px;
+            margin: 40px auto;
+        }
 
-  h2 {
-    color: #1e293b;
-    margin-bottom: 1.5rem;
-  }
-</style>
+        /* List styles */
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .tab-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .tab {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 5px;
+                border-radius: 5px;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            select, input[type="number"], button {
+                width: 100%;
+            }
+
+            #playerChart {
+                width: 100%;
+            }
+        }
+    </style>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
-  <h1>TNC The Model™ V2 Week 13 Predictions</h1>
+    <h1>TNC The Model™ V2 Week 13 Predictions</h1>
 
-  <div class="tab-container">
-    <button class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</button>
-    <button class="tab" onclick="switchTab('bulletTab')">Roster Changes</button>
-    <button class="tab" onclick="switchTab('explanationTab')">How The Model Works</button>
-  </div>
-
-  <div id="chartTab" class="tab-content active">
-    <div class="form-group">
-      <label>Select Winning Team:</label>
-      <select>
-        <option>-- Select a Team --</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label>Select Losing Team:</label>
-      <select>
-        <option>-- Select a Team --</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label>Win By (optional):</label>
-      <input type="text">
+    <!-- Tab navigation -->
+    <div class="tab-container">
+        <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
+        <div class="tab" onclick="switchTab('explanationTab')">How The Model Works</div>
     </div>
 
-    <button onclick="calculate()">Calculate</button>
+    <!-- Tab content -->
+    <div id="chartTab" class="tab-content active">
+        <label for="teamA">Select Winning Team:</label>
+        <select id="teamA">
+            <option value="">-- Select a Team --</option>
+        </select>
 
-    <div id="result"></div>
-  </div>
+        <label for="teamB">Select Losing Team:</label>
+        <select id="teamB">
+            <option value="">-- Select a Team --</option>
+        </select>
 
-  <div id="bulletTab" class="tab-content">
-    <h2>Assumptions Made</h2>
-    <ul>
-      <li>Projection data taken from Wednesday, Nov 27th snapshot</li>
-      <li>Mehdi has JK Dobbins Out</li>
-      <li>Sumedh gets Pacheco back</li>
-      <li>Umar gets a new TE and Kicker</li>
-      <li>Dany starts Burrow and Davante</li>
-      <li>Samer has Josh Downs out</li>
-    </ul>
-  </div>
+        <label for="adjustment">Win By (optional):</label>
+        <input type="number" id="adjustment" step="any" placeholder="Enter point difference">
 
-  <div id="explanationTab" class="tab-content">
-    <h2>How The Model V2™ Works</h2>
-    <p>The Model V2™ calculates recency-weighted points above projection to calculate a Hot-Factor. The Hot-Factor is then used to calculate Expected Points. The Model V2™ also calculates recency-weighted variance, used to determine which teams are more or less explosive.</p>
-  </div>
+        <button onclick="calculateProbability()">Calculate</button>
 
-  <script>
-    function switchTab(tabId) {
-      // Hide all tab contents
-      document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-      });
-      
-      // Deactivate all tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      
-      // Show selected tab content
-      document.getElementById(tabId).classList.add('active');
-      
-      // Activate selected tab
-      document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
-    }
+        <h2 id="result"></h2>
 
-    function calculate() {
-      // Add calculation logic here
-    }
-  </script>
+        <canvas id="playerChart"></canvas>
+    </div>
+
+    <div id="bulletTab" class="tab-content">
+        <h2>Assumptions Made</h2>
+        <ul>
+            <li>Projection data taken from Wednesday, Nov 27th snapshot</li>
+            <li>Mehdi has JK Dobbins out.</li>
+            <li>Sumedh gets Pacheco back.</li>
+            <li>Umar gets a new TE and Kicker.</li>
+            <li>Dany starts Burrow and Davante.</li>
+            <li>Samer has Josh Downs out.</li>
+        </ul>
+    </div>
+
+    <div id="explanationTab" class="tab-content">
+        <h2>How The Model V2™ Works</h2>
+        <p>
+            The Model V2™ calculates recency-weighted points above projection to calculate a Hot-Factor.
+            The Hot-Factor is then used to calculate Expected Points.
+            The Model V2™ also calculates recency-weighted variance,
+            used to determine which teams are more or less explosive.
+        </p>
+    </div>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab-container .tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Player data
+        const players = {
+            "Shahudit": { variance: 283, model_expected: 105, sleeper_proj: 108, hot_factor: -3.4 },
+            "mehdidrissi": { variance: 123, model_expected: 111, sleeper_proj: 115, hot_factor: -4.4 },
+            "umarrahman30": { variance: 97, model_expected: 114, sleeper_proj: 117, hot_factor: -3.2 },
+            "xavierking4": { variance: 150, model_expected: 114, sleeper_proj: 112, hot_factor: 2.4 },
+            "sahirsyed30": { variance: 170, model_expected: 115, sleeper_proj: 115, hot_factor: 0.2 },
+            "SumHead": { variance: 101, model_expected: 116, sleeper_proj: 114, hot_factor: 1.8 },
+            "sfaizi24": { variance: 128, model_expected: 118, sleeper_proj: 114, hot_factor: 3.5 },
+            "asadrafique": { variance: 198, model_expected: 118, sleeper_proj: 116, hot_factor: 1.9 },
+            "Ammady": { variance: 298, model_expected: 120, sleeper_proj: 109, hot_factor: 11.1 },
+            "Jibraan": { variance: 483, model_expected: 126, sleeper_proj: 124, hot_factor: 1.7 },
+            "Bilal879": { variance: 286, model_expected: 130, sleeper_proj: 125, hot_factor: 5.0 },
+            "amir812": { variance: 255, model_expected: 134, sleeper_proj: 129, hot_factor: 4.6 }
+        };
+
+        // Populate dropdowns
+        function populateDropdown(id) {
+            const dropdown = document.getElementById(id);
+            for (const player in players) {
+                const option = document.createElement("option");
+                option.value = player;
+                option.textContent = player;
+                dropdown.appendChild(option);
+            }
+        }
+
+        // Calculate probability
+        function calculateProbability() {
+            const teamAPlayer = document.getElementById("teamA").value;
+            const teamBPlayer = document.getElementById("teamB").value;
+
+            if (teamAPlayer && teamBPlayer) {
+                const teamAData = players[teamAPlayer];
+                const teamBData = players[teamBPlayer];
+
+                // Get the inputted number
+                const adjustmentInput = document.getElementById("adjustment").value;
+                const adjustmentNumber = parseFloat(adjustmentInput) || 0; // Defaults to 0 if empty or invalid
+
+                // Modify the numerator
+                const numerator = teamAData.model_expected - teamBData.model_expected - adjustmentNumber;
+                const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
+                const zScore = numerator / denominator;
+
+                // Standard normal CDF using erf function
+                const probability = 0.5 * (1 + erf(zScore / Math.sqrt(2)));
+
+                // Display the probability as a percentage
+                document.getElementById("result").textContent = `Probability: ${(probability * 100).toFixed(2)}%`;
+            } else {
+                document.getElementById("result").textContent = "Please select both teams.";
+            }
+        }
+
+        // Implement the error function (erf)
+        function erf(x) {
+            const sign = x >= 0 ? 1 : -1;
+            x = Math.abs(x);
+            const a1 = 0.254829592, a2 = -0.284496736;
+            const a3 = 1.421413741, a4 = -1.453152027, a5 = 1.061405429;
+            const p = 0.3275911;
+            const t = 1 / (1 + p * x);
+            const y = 1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+            return sign * y;
+        }
+
+        // Populate dropdowns immediately
+        populateDropdown("teamA");
+        populateDropdown("teamB");
+
+        // Generate the line graph
+        const ctx = document.getElementById("playerChart").getContext("2d");
+        const playerNames = Object.keys(players);
+        const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
+        const modelExpectedData = playerNames.map(player => players[player].model_expected);
+
+        new Chart(ctx, {
+            type: "line",
+            data: {
+                labels: playerNames,
+                datasets: [
+                    {
+                        label: "Sleeper Projections",
+                        data: sleeperProjData,
+                        borderColor: "#3498db",
+                        backgroundColor: "rgba(52, 152, 219, 0.2)",
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: "The Model™ Expected",
+                        data: modelExpectedData,
+                        borderColor: "#e74c3c",
+                        backgroundColor: "rgba(231, 76, 60, 0.2)",
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "The Model V2™ vs Sleeper Projections",
+                        font: {
+                            size: 18,
+                            weight: 'bold'
+                        }
+                    },
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: "Teams",
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: "Points",
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
+
 </html>
