@@ -4,37 +4,96 @@
 <head>
     <title>TNC The Model™ V2 Week 13 Predictions</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Basic styles for tabs */
+        .tab-container {
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background-color: #f9f9f9;
+        }
+
+        .tab.active {
+            background-color: #fff;
+            font-weight: bold;
+        }
+
+        .tab-content {
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
     <h1>TNC The Model™ V2 Week 13 Predictions</h1>
 
-    <label for="teamA">Select Winning Team:</label>
-    <select id="teamA">
-        <option value="">-- Select a player --</option>
-    </select>
+    <!-- Tab navigation -->
+    <div class="tab-container">
+        <div class="tab active" onclick="switchTab('chartTab')">Chart</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Bullet Points</div>
+    </div>
 
-    <br><br>
+    <!-- Tab content -->
+    <div id="chartTab" class="tab-content active">
+        <label for="teamA">Select Winning Team:</label>
+        <select id="teamA">
+            <option value="">-- Select a player --</option>
+        </select>
 
-    <label for="teamB">Select Losing Team:</label>
-    <select id="teamB">
-        <option value="">-- Select a player --</option>
-    </select>
+        <br><br>
 
-    <br><br>
+        <label for="teamB">Select Losing Team:</label>
+        <select id="teamB">
+            <option value="">-- Select a player --</option>
+        </select>
 
-    <label for="adjustment">Win By (optional):</label>
-    <input type="number" id="adjustment" step="any">
+        <br><br>
 
-    <br><br>
+        <label for="adjustment">Win By (optional):</label>
+        <input type="number" id="adjustment" step="any">
 
-    <button onclick="calculateProbability()">Calculate</button>
+        <br><br>
 
-    <h2 id="result"></h2>
+        <button onclick="calculateProbability()">Calculate</button>
 
-    <canvas id="playerChart" width="800" height="400"></canvas>
+        <h2 id="result"></h2>
+
+        <canvas id="playerChart" width="800" height="400"></canvas>
+    </div>
+
+    <div id="bulletTab" class="tab-content">
+        <h2>Add Bullet Points</h2>
+        <textarea id="bulletInput" rows="3" cols="50" placeholder="Type your bullet point here..."></textarea>
+        <br><br>
+        <button onclick="addBulletPoint()">Add Bullet Point</button>
+        <ul id="bulletList"></ul>
+    </div>
 
     <script>
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`[onclick="switchTab('${tabId}')"]`).classList.add('active');
+        }
+
         // Player data
         const players = {
             "Shahudit": { variance: 283, model_expected: 105, sleeper_proj: 108, hot_factor: -3.4 },
@@ -102,6 +161,20 @@
             return sign * y;
         }
 
+        // Bullet points functionality
+        function addBulletPoint() {
+            const bulletInput = document.getElementById("bulletInput");
+            const bulletText = bulletInput.value.trim();
+
+            if (bulletText) {
+                const bulletList = document.getElementById("bulletList");
+                const listItem = document.createElement("li");
+                listItem.textContent = bulletText;
+                bulletList.appendChild(listItem);
+                bulletInput.value = ""; // Clear the input field
+            }
+        }
+
         // Populate dropdowns immediately
         populateDropdown("teamA");
         populateDropdown("teamB");
@@ -118,16 +191,16 @@
                 labels: playerNames,
                 datasets: [
                     {
-                        label: "Sleeper Projections",
+                        label: "Sleeper Proj",
                         data: sleeperProjData,
                         borderColor: "#003a6f",
-                        fill: true
+                        fill: false
                     },
                     {
-                        label: "The Model™",
+                        label: "Model Expected",
                         data: modelExpectedData,
                         borderColor: "#a12830",
-                        fill: true
+                        fill: false
                     }
                 ]
             },
@@ -136,7 +209,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: "The Model V2™ vs Sleeper Projections"
+                        text: "How to Train Your Dragon"
                     }
                 },
                 scales: {
