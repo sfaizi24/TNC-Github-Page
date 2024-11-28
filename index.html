@@ -41,8 +41,9 @@
 
     <!-- Tab navigation -->
     <div class="tab-container">
-        <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
-        <div class="tab" onclick="switchTab('bulletTab')">Assumptions Made</div>
+        <div class="tab active" onclick="switchTab('explanationTab')">How The Model Works</div>
+        <div class="tab" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
+        <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
     </div>
 
     <!-- Tab content -->
@@ -83,6 +84,16 @@
             <li>Dany starts Burrow and Davante</li>
             <li>Samer has Josh Downs out</li>
         </ul>
+    </div>
+
+    <div id="explanationTab" class="tab-content">
+        <h2>How The Model V2™ Works</h2>
+        <p>
+            The Model V2™ calculates recency-weighted points above projection to calculate a Hot-Factor.
+            The Hot-Factor is then used to calculate Expected Points.
+            The Model V2™ also calculates recency-weighted variance,
+            used to determine which teams are more or less explosive.
+        </p>
     </div>
 
     <script>
@@ -212,13 +223,4 @@
                     y: {
                         title: {
                             display: true,
-                            text: "Points"
-                        }
-                    }
-                }
-            }
-        });
-    </script>
-</body>
-
-</html>
+                            text: "Points
