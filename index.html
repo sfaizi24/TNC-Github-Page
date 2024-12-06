@@ -3,8 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>TNC The Model™ V2 Week 13 Predictions</title>
-    <!-- Use Apple System Fonts -->
+    <title>TNC Predictions</title>
     <style>
         /* Reset CSS */
         *,
@@ -35,7 +34,43 @@
             margin-bottom: 40px;
         }
 
-        /* Navigation Tabs */
+        /* Main Tabs */
+        .main-tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #E0E0E0;
+        }
+
+        .main-tab {
+            padding: 15px 30px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 20px;
+            color: #6E6E73;
+            transition: color 0.3s, border-bottom 0.3s;
+            font-weight: bold;
+        }
+
+        .main-tab:hover {
+            color: #0071E3;
+        }
+
+        .main-tab.active {
+            color: #0071E3;
+            border-bottom: 2px solid #0071E3;
+        }
+
+        /* Main Tab Content */
+        .main-tab-content {
+            display: none;
+        }
+
+        .main-tab-content.active {
+            display: block;
+        }
+
+        /* Week 13 Sub-Tabs */
         .tab-container {
             display: flex;
             justify-content: center;
@@ -61,12 +96,45 @@
             border-bottom: 2px solid #0071E3;
         }
 
-        /* Tab Content */
         .tab-content {
             display: none;
         }
 
         .tab-content.active {
+            display: block;
+        }
+
+        /* Week 14 Sub-Tabs */
+        .tab14-container {
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #E0E0E0;
+            margin-bottom: 30px;
+        }
+
+        .tab14 {
+            padding: 15px 25px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 18px;
+            color: #6E6E73;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .tab14:hover {
+            color: #0071E3;
+        }
+
+        .tab14.active {
+            color: #0071E3;
+            border-bottom: 2px solid #0071E3;
+        }
+
+        .tab14-content {
+            display: none;
+        }
+
+        .tab14-content.active {
             display: block;
         }
 
@@ -121,7 +189,8 @@
         }
 
         /* Result Display */
-        #result {
+        #result,
+        #result14 {
             margin-top: 40px;
             font-size: 28px;
             font-weight: 600;
@@ -131,14 +200,20 @@
         /* Chart Styles */
         #playerChartContainer,
         #varianceChartContainer,
-        #weeksAboveChartContainer {
+        #weeksAboveChartContainer,
+        #playerChartContainer14,
+        #varianceChartContainer14,
+        #weeksAboveChartContainer14 {
             max-width: 1000px;
             margin: 50px auto;
         }
 
         #playerChart,
         #varianceChart,
-        #weeksAboveChart {
+        #weeksAboveChart,
+        #playerChart14,
+        #varianceChart14,
+        #weeksAboveChart14 {
             width: 100%;
             height: 500px;
         }
@@ -174,7 +249,8 @@
                 font-size: 28px;
             }
 
-            .tab {
+            .tab,
+            .tab14 {
                 font-size: 16px;
                 padding: 12px 15px;
             }
@@ -183,108 +259,207 @@
                 width: 90%;
             }
 
-            #result {
+            #result,
+            #result14 {
                 font-size: 24px;
             }
 
             #playerChart,
             #varianceChart,
-            #weeksAboveChart {
+            #weeksAboveChart,
+            #playerChart14,
+            #varianceChart14,
+            #weeksAboveChart14 {
                 height: 300px;
-                /* Adjust height for smaller screens */
             }
         }
     </style>
-    <!-- Include Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <h1>TNC The Model™ V2 Week 13 Predictions</h1>
 
-    <!-- Tab navigation -->
-    <div class="tab-container">
-        <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
-        <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
-        <div class="tab" onclick="switchTab('explanationTab')">How The Model Works</div>
+    <!-- Main tabs -->
+    <div class="main-tab-container">
+        <div class="main-tab active" onclick="switchMainTab('week13')">Week 13</div>
+        <div class="main-tab" onclick="switchMainTab('week14')">Week 14</div>
     </div>
 
-    <!-- Tab content -->
-    <div id="chartTab" class="tab-content active">
-        <div class="form-group">
-            <label for="teamA">Select Winning Team:</label>
-            <select id="teamA">
-                <option value="">-- Select a Team --</option>
-            </select>
+    <!-- WEEK 13 SECTION -->
+    <div id="week13" class="main-tab-content active">
+        <h1>TNC The Model™ V2 Week 13 Predictions</h1>
+
+        <!-- Week 13 Sub-tabs -->
+        <div class="tab-container">
+            <div class="tab active" onclick="switchTab('chartTab')">Prediction Model and Charts</div>
+            <div class="tab" onclick="switchTab('bulletTab')">Roster Changes</div>
+            <div class="tab" onclick="switchTab('explanationTab')">How The Model Works</div>
         </div>
 
-        <div class="form-group">
-            <label for="teamB">Select Losing Team:</label>
-            <select id="teamB">
-                <option value="">-- Select a Team --</option>
-            </select>
+        <!-- Week 13 Tab Contents -->
+        <div id="chartTab" class="tab-content active">
+            <div class="form-group">
+                <label for="teamA">Select Winning Team:</label>
+                <select id="teamA">
+                    <option value="">-- Select a Team --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="teamB">Select Losing Team:</label>
+                <select id="teamB">
+                    <option value="">-- Select a Team --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="adjustment">Win By (optional):</label>
+                <input type="number" id="adjustment" step="any" placeholder="Enter point difference">
+            </div>
+
+            <button onclick="calculateProbability()">Calculate</button>
+
+            <h2 id="result"></h2>
+
+            <div id="playerChartContainer">
+                <canvas id="playerChart"></canvas>
+            </div>
+
+            <div id="varianceChartContainer">
+                <canvas id="varianceChart"></canvas>
+            </div>
+
+            <div id="weeksAboveChartContainer">
+                <canvas id="weeksAboveChart"></canvas>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label for="adjustment">Win By (optional):</label>
-            <input type="number" id="adjustment" step="any" placeholder="Enter point difference">
+        <div id="bulletTab" class="tab-content">
+            <div class="content-section">
+                <h2>Assumptions Made</h2>
+                <ul>
+                    <li><strong>Projection Data taken from Wednesday, Nov 27th snapshot.</strong></li>
+                    <li>Mehdi has JK Dobbins out.</li>
+                    <li>Sumedh gets Pacheco back.</li>
+                    <li>Umar gets a new TE and Kicker.</li>
+                    <li>Dany starts Burrow and Davante.</li>
+                    <li>Samer has Josh Downs out.</li>
+                    <li>Ammad gets a new Defense.</li>
+                </ul>
+            </div>
         </div>
 
-        <button onclick="calculateProbability()">Calculate</button>
-
-        <h2 id="result"></h2>
-
-        <!-- Existing chart container -->
-        <div id="playerChartContainer">
-            <canvas id="playerChart"></canvas>
-        </div>
-
-        <!-- Variance vs Expected Points chart container -->
-        <div id="varianceChartContainer">
-            <canvas id="varianceChart"></canvas>
-        </div>
-
-        <!-- Weeks Above Projection chart container -->
-        <div id="weeksAboveChartContainer">
-            <canvas id="weeksAboveChart"></canvas>
+        <div id="explanationTab" class="tab-content">
+            <div class="content-section">
+                <h2>How The Model™ V2 Works</h2>
+                <p>
+                    The Model™ V2™ uses three features to drive the prediction model:
+                </p>
+                <ul>
+                    <li><strong>Points Above Projection</strong></li>
+                    <li><strong>Variance</strong></li>
+                    <li><strong>Sleeper Projections</strong></li>
+                </ul>
+                <p>
+                    Points Above Projection and Variance are recency-weighted using <em>r<sup>2</sup></em> for use in
+                    the
+                    prediction model.
+                </p>
+            </div>
         </div>
     </div>
 
-    <div id="bulletTab" class="tab-content">
-        <div class="content-section">
-            <h2>Assumptions Made</h2>
-            <ul>
-                <li><strong>Projection Data taken from Wednesday, Nov 27th snapshot.</strong></li>
-                <li>Mehdi has JK Dobbins out.</li>
-                <li>Sumedh gets Pacheco back.</li>
-                <li>Umar gets a new TE and Kicker.</li>
-                <li>Dany starts Burrow and Davante.</li>
-                <li>Samer has Josh Downs out.</li>
-                <li>Ammad gets a new Defense.</li>
-            </ul>
-        </div>
-    </div>
+    <!-- WEEK 14 SECTION -->
+    <div id="week14" class="main-tab-content">
+        <h1>TNC The Model™ V2 Week 14 Predictions</h1>
 
-    <div id="explanationTab" class="tab-content">
-        <div class="content-section">
-            <h2>How The Model™ V2 Works</h2>
-            <p>
-                The Model™ V2™ uses three features to drive the prediction model:
-            </p>
-            <ul>
-                <li><strong>Points Above Projection</strong></li>
-                <li><strong>Variance</strong></li>
-                <li><strong>Sleeper Projections</strong></li>
-            </ul>
-            <p>
-                Points Above Projection and Variance are recency-weighted using <em>r<sup>2</sup></em> for use in the
-                prediction model.
-            </p>
+        <!-- Week 14 Sub-tabs -->
+        <div class="tab14-container">
+            <div class="tab14 active" onclick="switchTab14('chartTab14')">Prediction Model and Charts</div>
+            <div class="tab14" onclick="switchTab14('bulletTab14')">Roster Changes</div>
+            <div class="tab14" onclick="switchTab14('explanationTab14')">How The Model Works</div>
+        </div>
+
+        <!-- Week 14 Tab Contents -->
+        <div id="chartTab14" class="tab14-content active">
+            <div class="form-group">
+                <label for="teamA14">Select Winning Team:</label>
+                <select id="teamA14">
+                    <option value="">-- Select a Team --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="teamB14">Select Losing Team:</label>
+                <select id="teamB14">
+                    <option value="">-- Select a Team --</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="adjustment14">Win By (optional):</label>
+                <input type="number" id="adjustment14" step="any" placeholder="Enter point difference">
+            </div>
+
+            <button onclick="calculateProbability14()">Calculate</button>
+
+            <h2 id="result14"></h2>
+
+            <div id="playerChartContainer14">
+                <canvas id="playerChart14"></canvas>
+            </div>
+
+            <div id="varianceChartContainer14">
+                <canvas id="varianceChart14"></canvas>
+            </div>
+
+            <div id="weeksAboveChartContainer14">
+                <canvas id="weeksAboveChart14"></canvas>
+            </div>
+        </div>
+
+        <div id="bulletTab14" class="tab14-content">
+            <div class="content-section">
+                <h2>Assumptions Made</h2>
+                <ul>
+                    <li><strong>All Projection Data taken from Wednesday, December 5th Snapshot</strong></li>
+                    <li>Fixed Asad's team but that's it.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="explanationTab14" class="tab14-content">
+            <div class="content-section">
+                <h2>How The Model™ V2 Works (Week 14)</h2>
+                <p>
+                    The Model™ V2™ uses the same approach as Week 13:
+                </p>
+                <ul>
+                    <li><strong>Points Above Projection</strong></li>
+                    <li><strong>Variance</strong></li>
+                    <li><strong>Sleeper Projections</strong></li>
+                </ul>
+                <p>
+                    Data for Week 14 has been updated accordingly.
+                </p>
+            </div>
         </div>
     </div>
 
     <script>
-        // Tab switching logic
+        // Main tab switching logic
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.main-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.main-tab-container .main-tab[onclick="switchMainTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Week 13 Sub-tab switching
         function switchTab(tabId) {
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
@@ -296,7 +471,19 @@
             document.querySelector(`.tab-container .tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
         }
 
-        // Player data
+        // Week 14 Sub-tab switching
+        function switchTab14(tabId) {
+            document.querySelectorAll('.tab14').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab14-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.tab14-container .tab14[onclick="switchTab14('${tabId}')"]`).classList.add('active');
+        }
+
+        // WEEK 13 DATA
         const players = {
             "Shahudit": { variance: 283, model_expected: 105, sleeper_proj: 108, hot_factor: -3.4 },
             "mehdidrissi": { variance: 123, model_expected: 111, sleeper_proj: 115, hot_factor: -4.4 },
@@ -312,7 +499,6 @@
             "amir812": { variance: 255, model_expected: 134, sleeper_proj: 129, hot_factor: 4.6 }
         };
 
-        // Weekly data per team
         const weeklyData = {
             "amir812": [2.5, -3.2, -5.4, -2.6, -8.2, -6.7, -12.2, 13.5, 45.2, 21.6, 5.8, 4.4],
             "Ammady": [2.4, -3.0, 0.9, 3.8, 15.2, 1.3, 16.2, 9.6, 13.8, -13.6, 41.5, 45.2],
@@ -328,61 +514,126 @@
             "xavierking4": [0.5, 6.6, -5.0, 0.3, 14.0, 2.5, -13.2, -1.5, 27.9, 7.2, 8.5, -19.3]
         };
 
-        // Calculate the number of positive weeks in first 8 weeks and last 4 weeks
-        const weeksAboveProjectionFirst8 = {};
-        const weeksAboveProjectionLast4 = {};
+        // WEEK 14 DATA
+        const players14 = {
+            "Shahudit": { variance: 246.7, model_expected: 104.1, sleeper_proj: 105.81, hot_factor: -1.7 },
+            "mehdidrissi": { variance: 381.2, model_expected: 108.3, sleeper_proj: 107.62, hot_factor: 0.7 },
+            "umarrahman30": { variance: 151.3, model_expected: 105.6, sleeper_proj: 110.91, hot_factor: -5.3 },
+            "xavierking4": { variance: 125.8, model_expected: 106.8, sleeper_proj: 103.78, hot_factor: 3.0 },
+            "sahirsyed30": { variance: 213.8, model_expected: 116.2, sleeper_proj: 113.50, hot_factor: 2.7 },
+            "SumHead": { variance: 79.2, model_expected: 108.6, sleeper_proj: 106.86, hot_factor: 1.7 },
+            "sfaizi24": { variance: 106.4, model_expected: 107.2, sleeper_proj: 103.21, hot_factor: 3.9 },
+            "asadrafique": { variance: 155.9, model_expected: 93.8, sleeper_proj: 91.76, hot_factor: 2.1 },
+            "Ammady": { variance: 241.5, model_expected: 129.3, sleeper_proj: 119.85, hot_factor: 9.4 },
+            "Jibraan": { variance: 397.7, model_expected: 119.6, sleeper_proj: 116.82, hot_factor: 2.8 },
+            "Bilal879": { variance: 226.5, model_expected: 125.6, sleeper_proj: 121.47, hot_factor: 4.1 },
+            "amir812": { variance: 233.7, model_expected: 132.5, sleeper_proj: 126.67, hot_factor: 5.8 }
+        };
 
+        const weeklyData14 = {
+            "amir812": [30.17, -18.95, -21.52, -7.77, -19.63, -13.39, -20.83, 20.23, 60.27, 25.97, 6.35, 4.35, 25.38],
+            "Ammady": [29.04, -18.21, 3.42, 11.26, 36.39, 2.68, 27.71, 14.43, 18.36, -16.33, 45.25, 45.21, -0.46],
+            "asadrafique": [-5.47, 3.75, -15.6, 14.18, 1.4, 11.13, -36.44, 2.17, 10.62, -13.47, 0, 38.89, 5.48],
+            "Bilal879": [-12.38, -22.07, 2.72, -9.6, 13.61, -16.36, 18.61, 12.75, -30.37, 55.32, 6.44, 21.28, -1.83],
+            "Jibraan": [0.95, -14.7, 7.42, 12.49, 12.43, 28.32, 20.34, -23.77, -6.41, -28.24, 63, -28.09, 17.87],
+            "mehdidrissi": [17.72, 3.21, -25.19, 22.99, 9.86, -7.54, -44.65, 11.56, 5.03, -11.02, -10.5, -22.74, 56.88],
+            "sahirsyed30": [-22.1, 6.68, -15.33, -6.24, 16.3, -0.8, 4.45, 22.6, -5.5, 24.76, -26.87, -14.29, 32.69],
+            "sfaizi24": [-16.47, -16.12, 5.36, 16.3, 16.3, 34.45, 8.79, -7.78, -10.63, 20.45, -7.1, 26.9, 12.5],
+            "Shahudit": [5.47, 14.56, 48.53, 7.93, -16.22, 21.14, 28.34, 33.96, -6.62, -10.15, -41.8, 19.39, 15.2],
+            "SumHead": [-24.29, -1.53, 9.46, 1.22, -33.24, 0.49, 35.79, 18.19, 5.07, -17.95, 11.94, 5.07, 2.3],
+            "umarrahman30": [-6.53, 21.67, -4.85, -36.1, 44.48, -12.46, 5.63, -1.47, -3.93, -24.58, -6.66, -12.84, -34.3],
+            "xavierking4": [6.56, 39.39, -19.97, 1.02, 33.61, 4.95, -22.6, -2.21, 37.26, 8.66, 9.22, -19.25, 12.66]
+        };
+
+        // For Week 13: First 8 weeks & Last 4 weeks
+        const positiveWeeksFirst8 = {};
+        const positiveWeeksLast4 = {};
         for (const team in weeklyData) {
             const first8Weeks = weeklyData[team].slice(0, 8);
             const last4Weeks = weeklyData[team].slice(8, 12);
-
-            const positiveWeeksFirst8 = first8Weeks.filter(value => value > 0).length;
-            const positiveWeeksLast4 = last4Weeks.filter(value => value > 0).length;
-
-            weeksAboveProjectionFirst8[team] = positiveWeeksFirst8;
-            weeksAboveProjectionLast4[team] = positiveWeeksLast4;
+            positiveWeeksFirst8[team] = first8Weeks.filter(v => v > 0).length;
+            positiveWeeksLast4[team] = last4Weeks.filter(v => v > 0).length;
         }
 
-        // Populate dropdowns
+        // For Week 14: First 9 weeks & Last 4 weeks
+        const positiveWeeksFirst9_14 = {};
+        const positiveWeeksLast4_14 = {};
+        for (const team in weeklyData14) {
+            const first9Weeks = weeklyData14[team].slice(0, 9);
+            const last4Weeks = weeklyData14[team].slice(9, 13);
+            positiveWeeksFirst9_14[team] = first9Weeks.filter(v => v > 0).length;
+            positiveWeeksLast4_14[team] = last4Weeks.filter(v => v > 0).length;
+        }
+
+        // Sorting player names by model_expected ascending
+        const playerNames = Object.keys(players).sort((a, b) => players[a].model_expected - players[b].model_expected);
+        const playerNames14 = Object.keys(players14).sort((a, b) => players14[a].model_expected - players14[b].model_expected);
+
+        // Populate Week 13 dropdowns
         function populateDropdown(id) {
             const dropdown = document.getElementById(id);
-            for (const player in players) {
+            playerNames.forEach(player => {
                 const option = document.createElement("option");
                 option.value = player;
                 option.textContent = player;
                 dropdown.appendChild(option);
-            }
+            });
         }
+        populateDropdown("teamA");
+        populateDropdown("teamB");
 
-        // Calculate probability
+        // Populate Week 14 dropdowns
+        function populateDropdown14(id) {
+            const dropdown = document.getElementById(id);
+            playerNames14.forEach(player => {
+                const option = document.createElement("option");
+                option.value = player;
+                option.textContent = player;
+                dropdown.appendChild(option);
+            });
+        }
+        populateDropdown14("teamA14");
+        populateDropdown14("teamB14");
+
+        // Probability calculation (Week 13)
         function calculateProbability() {
             const teamAPlayer = document.getElementById("teamA").value;
             const teamBPlayer = document.getElementById("teamB").value;
-
             if (teamAPlayer && teamBPlayer) {
                 const teamAData = players[teamAPlayer];
                 const teamBData = players[teamBPlayer];
-
-                // Get the inputted number
                 const adjustmentInput = document.getElementById("adjustment").value;
-                const adjustmentNumber = parseFloat(adjustmentInput) || 0; // Defaults to 0 if empty or invalid
-
-                // Modify the numerator
+                const adjustmentNumber = parseFloat(adjustmentInput) || 0;
                 const numerator = teamAData.model_expected - teamBData.model_expected - adjustmentNumber;
                 const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
                 const zScore = numerator / denominator;
-
-                // Standard normal CDF using erf function
                 const probability = 0.5 * (1 + erf(zScore / Math.sqrt(2)));
-
-                // Display the probability as a percentage
                 document.getElementById("result").textContent = `Probability: ${(probability * 100).toFixed(2)}%`;
             } else {
                 document.getElementById("result").textContent = "Please select both teams.";
             }
         }
 
-        // Implement the error function (erf)
+        // Probability calculation (Week 14)
+        function calculateProbability14() {
+            const teamAPlayer = document.getElementById("teamA14").value;
+            const teamBPlayer = document.getElementById("teamB14").value;
+            if (teamAPlayer && teamBPlayer) {
+                const teamAData = players14[teamAPlayer];
+                const teamBData = players14[teamBPlayer];
+                const adjustmentInput = document.getElementById("adjustment14").value;
+                const adjustmentNumber = parseFloat(adjustmentInput) || 0;
+                const numerator = teamAData.model_expected - teamBData.model_expected - adjustmentNumber;
+                const denominator = Math.sqrt(teamAData.variance + teamBData.variance);
+                const zScore = numerator / denominator;
+                const probability = 0.5 * (1 + erf(zScore / Math.sqrt(2)));
+                document.getElementById("result14").textContent = `Probability: ${(probability * 100).toFixed(2)}%`;
+            } else {
+                document.getElementById("result14").textContent = "Please select both teams.";
+            }
+        }
+
+        // Error function
         function erf(x) {
             const sign = x >= 0 ? 1 : -1;
             x = Math.abs(x);
@@ -394,18 +645,15 @@
             return sign * y;
         }
 
-        // Populate dropdowns immediately
-        populateDropdown("teamA");
-        populateDropdown("teamB");
-
-        const playerNames = Object.keys(players);
-
-        // Generate the first chart (Sleeper Projections vs The Model™ Expected)
-        const ctx = document.getElementById("playerChart").getContext("2d");
+        // WEEK 13 CHARTS
         const sleeperProjData = playerNames.map(player => players[player].sleeper_proj);
         const modelExpectedData = playerNames.map(player => players[player].model_expected);
+        const stdDevData = playerNames.map(player => Math.sqrt(players[player].variance));
+        const positiveWeeksFirst8Data = playerNames.map(player => positiveWeeksFirst8[player]);
+        const positiveWeeksLast4Data = playerNames.map(player => positiveWeeksLast4[player]);
 
-        new Chart(ctx, {
+        // The Model vs Sleeper (Week 13)
+        new Chart(document.getElementById("playerChart").getContext("2d"), {
             type: "line",
             data: {
                 labels: playerNames,
@@ -430,71 +678,23 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Allows the chart to fill the container
+                maintainAspectRatio: false,
                 plugins: {
                     title: {
                         display: true,
-                        text: "The Model™ V2™ vs Sleeper Projections",
+                        text: "The Model™ V2™ vs Sleeper Projections (Week 13)",
                         font: {
                             size: 24,
                             weight: '600'
                         },
                         color: '#1D1D1F'
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 16
-                            },
-                            color: '#1D1D1F'
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: "Teams",
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
-                        }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: "Points",
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
-                        }
                     }
                 }
             }
         });
 
-        // Generate the variance vs expected points chart
-        const varianceCtx = document.getElementById("varianceChart").getContext("2d");
-        const stdDevData = playerNames.map(player => Math.sqrt(players[player].variance));
-
-        new Chart(varianceCtx, {
+        // Variance vs Expected (Week 13)
+        new Chart(document.getElementById("varianceChart").getContext("2d"), {
             type: 'line',
             data: {
                 labels: playerNames,
@@ -521,7 +721,7 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false, // Allows the chart to fill the container
+                maintainAspectRatio: false,
                 interaction: {
                     mode: 'index',
                     intersect: false,
@@ -530,21 +730,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Recency-Weighted Volatility Per Team',
+                        text: 'Recency-Weighted Volatility Per Team (Week 13)',
                         font: {
                             size: 24,
                             weight: '600'
                         },
                         color: '#1D1D1F'
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 16
-                            },
-                            color: '#1D1D1F'
-                        }
                     }
                 },
                 scales: {
@@ -554,83 +745,36 @@
                         position: 'left',
                         title: {
                             display: true,
-                            text: 'Expected Points',
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
+                            text: 'Expected Points'
                         }
                     },
                     y1: {
                         type: 'linear',
                         display: true,
                         position: 'right',
-                        grid: {
-                            drawOnChartArea: false, // Only want the grid lines for one axis
-                        },
-                        title: {
-                            display: true,
-                            text: 'Standard Deviation',
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Teams',
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
-                        }
+                        grid: { drawOnChartArea: false }
                     }
                 }
             }
         });
 
-        // Generate the Weeks Above Projection chart (Stacked Bar Chart)
-        const weeksAboveCtx = document.getElementById("weeksAboveChart").getContext("2d");
-        const positiveWeeksFirst8Data = playerNames.map(player => weeksAboveProjectionFirst8[player]);
-        const positiveWeeksLast4Data = playerNames.map(player => weeksAboveProjectionLast4[player]);
-
-        new Chart(weeksAboveCtx, {
+        // Weeks Above Projection (Week 13)
+        new Chart(document.getElementById("weeksAboveChart").getContext("2d"), {
             type: 'bar',
             data: {
                 labels: playerNames,
                 datasets: [
                     {
-                        label: 'Weeks 1-8',
+                        label: 'First 8 Weeks',
                         data: positiveWeeksFirst8Data,
                         backgroundColor: '#1D1D1F',
+                        stack: 'stack'
                     },
                     {
-                        label: 'Weeks 9-12',
+                        label: 'Last 4 Weeks',
                         data: positiveWeeksLast4Data,
                         backgroundColor: '#247bd4',
+                        stack: 'stack'
                     }
                 ]
             },
@@ -640,21 +784,12 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: 'Number of Games Above Projected Score',
+                        text: 'Number of Games Above Projected Score (Week 13)',
                         font: {
                             size: 24,
                             weight: '600'
                         },
                         color: '#1D1D1F'
-                    },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 16
-                            },
-                            color: '#1D1D1F'
-                        }
                     },
                     tooltip: {
                         mode: 'index',
@@ -670,18 +805,7 @@
                         stacked: true,
                         title: {
                             display: true,
-                            text: 'Teams',
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
-                        },
-                        ticks: {
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
+                            text: 'Teams'
                         }
                     },
                     y: {
@@ -689,19 +813,182 @@
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'Number of Weeks',
-                            font: {
-                                size: 18,
-                                weight: '600'
-                            },
-                            color: '#1D1D1F'
+                            text: 'Number of Weeks'
+                        }
+                    }
+                }
+            }
+        });
+
+        // WEEK 14 CHARTS
+        const sleeperProjData14 = playerNames14.map(player => players14[player].sleeper_proj);
+        const modelExpectedData14 = playerNames14.map(player => players14[player].model_expected);
+        const stdDevData14 = playerNames14.map(player => Math.sqrt(players14[player].variance));
+        const positiveWeeksFirst9Data14 = playerNames14.map(player => positiveWeeksFirst9_14[player]);
+        const positiveWeeksLast4Data14 = playerNames14.map(player => positiveWeeksLast4_14[player]);
+
+        // The Model vs Sleeper (Week 14)
+        new Chart(document.getElementById("playerChart14").getContext("2d"), {
+            type: "line",
+            data: {
+                labels: playerNames14,
+                datasets: [
+                    {
+                        label: "Sleeper Projections",
+                        data: sleeperProjData14,
+                        borderColor: "#247bd4",
+                        backgroundColor: "rgba(0, 113, 227, 0.1)",
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: "The Model™ Expected",
+                        data: modelExpectedData14,
+                        borderColor: "#1D1D1F",
+                        backgroundColor: "rgba(29, 29, 31, 0.1)",
+                        fill: true,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "The Model™ V2™ vs Sleeper Projections (Week 14)",
+                        font: {
+                            size: 24,
+                            weight: '600'
                         },
-                        ticks: {
-                            stepSize: 1,
-                            font: {
-                                size: 14
-                            },
-                            color: '#1D1D1F'
+                        color: '#1D1D1F'
+                    }
+                }
+            }
+        });
+
+        // Variance vs Expected (Week 14)
+        new Chart(document.getElementById("varianceChart14").getContext("2d"), {
+            type: 'line',
+            data: {
+                labels: playerNames14,
+                datasets: [
+                    {
+                        label: 'The Model™ Expected',
+                        data: modelExpectedData14,
+                        borderColor: '#1D1D1F',
+                        backgroundColor: 'rgba(29, 29, 31, 0.1)',
+                        yAxisID: 'y',
+                        tension: 0.3,
+                        fill: true
+                    },
+                    {
+                        label: 'Volatility (√Variance)',
+                        data: stdDevData14,
+                        borderColor: '#a12830',
+                        backgroundColor: 'rgba(161, 40, 48, 0.1)',
+                        yAxisID: 'y1',
+                        tension: 0.3,
+                        fill: true
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                stacked: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Recency-Weighted Volatility Per Team (Week 14)',
+                        font: {
+                            size: 24,
+                            weight: '600'
+                        },
+                        color: '#1D1D1F'
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'Expected Points'
+                        }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false }
+                    }
+                }
+            }
+        });
+
+        // Weeks Above Projection (Week 14)
+        new Chart(document.getElementById("weeksAboveChart14").getContext("2d"), {
+            type: 'bar',
+            data: {
+                labels: playerNames14,
+                datasets: [
+                    {
+                        label: 'First 9 Weeks',
+                        data: positiveWeeksFirst9Data14,
+                        backgroundColor: '#1D1D1F',
+                        stack: 'stack'
+                    },
+                    {
+                        label: 'Last 4 Weeks',
+                        data: positiveWeeksLast4Data14,
+                        backgroundColor: '#247bd4',
+                        stack: 'stack'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of Games Above Projected Score (Week 14)',
+                        font: {
+                            size: 24,
+                            weight: '600'
+                        },
+                        color: '#1D1D1F'
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            display: true,
+                            text: 'Teams'
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Weeks'
                         }
                     }
                 }
